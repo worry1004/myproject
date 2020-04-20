@@ -28,61 +28,69 @@
 
     <script type="text/javascript">
         function corp_reader_1() {
+            $(".image-box").hide();
             $.ajax({
                 type: "GET",
                 url: "/reader_1",
                 data: {},
-                async: false,
                 success: function (response) {
                     if (response['result'] == 'success') {
-                        let result = response['corporates'];
-                        for (let i = 0; i < result.length; i++) {
-
+                        let finallist = response['finallist'];
+                        for (let i = 0; i < finallist.length; i++) {
+                            make_card(finallist[i]['corporate_name'], finallist[i]['article_link'], finallist[i]['address'], finallist[i]['code_name'], finallist[i]['registration_date'], finallist[i]['employee_num']);
                         }
                     } else {
-                        alert("자료를 받아오지 못했습니다.")
+                        alert("자료를 받아오지 못했습니다.");
                     }
                 }
             });
         }
         function corp_reader_2() {
+            $(".image-box").hide();
             $.ajax({
                 type: "GET",
                 url: "/reader_2",
                 data: {},
-                async: false,
                 success: function (response) {
                     if (response['result'] == 'success') {
-                        let result = response['corporates'];
-                        for (let i = 0; i < result.length; i++) {
-
+                        let finallist = response['finallist'];
+                        for (let i = 0; i < finallist.length; i++) {
+                            make_card(finallist[i]['corporate_name'], finallist[i]['article_link'], finallist[i]['address'], finallist[i]['code_name'], finallist[i]['registration_date'], finallist[i]['employee_num']);
                         }
                     } else {
-                        alert("자료를 받아오지 못했습니다.")
+                        alert("자료를 받아오지 못했습니다.");
                     }
                 }
             });
         }
         function corp_reader_3() {
+            $(".image-box").hide();
             $.ajax({
                 type: "GET",
                 url: "/reader_3",
                 data: {},
-                async: false,
                 success: function (response) {
                     if (response['result'] == 'success') {
-                        let result = response['corporates'];
-                        for (let i = 0; i < result.length; i++) {
-
+                        let finallist = response['finallist'];
+                        for (let i = 0; i < finallist.length; i++) {
+                            make_card(finallist[i]['corporate_name'], finallist[i]['article_link'], finallist[i]['address'], finallist[i]['code_name'], finallist[i]['registration_date'], finallist[i]['employee_num']);
                         }
                     } else {
-                        alert("자료를 받아오지 못했습니다.")
+                        alert("자료를 받아오지 못했습니다.");
                     }
                 }
             });
         }
-        function start() {
-
+        function make_card(corporate_name, article_link, address, code_name, registration_date, employee_num) {
+            let temp_html = '<a href="' + article_link + '" class="list-group-item list-group-item-action flex-column align-items-start">\
+                    <div class="d-flex w-100 justify-content-between">\
+                        <h5 class="mb-2">' + corporate_name + '</h5>\
+                    </div>\
+                    <p class="mb-1">' + address + '</p>\
+                    <small>' + code_name + '</small><br>\
+                    <small>' + Registration_date + ' / ' + employee_number + '</small>\
+                </a>';
+            $('#cards_box').append(temp_html);    
         }
     </script>
 
@@ -91,7 +99,7 @@
 <body>
     <div class="sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" onclick="start()" href="#">WORRY1004</a>
+            <a class="navbar-brand" href="/">WORRY1004</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
                 aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -105,9 +113,9 @@
                                 Find Startup!
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" onclick="corp_reader_1()" href="#">1년차 이슈 스타트업 가져오기</a>
-                                <a class="dropdown-item" onclick="corp_reader_2()" href="#">2년차 이슈 스타트업 가져오기</a>
-                                <a class="dropdown-item" onclick="corp_reader_3()" href="#">3년차 이슈 스타트업 가져오기</a>
+                                <a class="dropdown-item" onclick="corp_reader_1()">1년차 이슈 스타트업 가져오기</a>
+                                <a class="dropdown-item" onclick="corp_reader_2()">2년차 이슈 스타트업 가져오기</a>
+                                <a class="dropdown-item" onclick="corp_reader_3()">3년차 이슈 스타트업 가져오기</a>
                             </div>
                         </div>
                     </li>
@@ -134,7 +142,20 @@
         <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
             class="img-fluid" alt="Responsive image" width="100%">
     </div>
-
+    <div class="container-fluid">
+        <div class="row row-cols-1 row-cols-md-3">
+            <div id="cards_box" class="list-group col-md-4">
+                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-2">Corporate Name</h5>
+                    </div>
+                    <p class="mb-1">Address</p>
+                    <small>Code Name</small><br>
+                    <small>Registration Date / Employee Number</small>
+                </a>
+            </div>
+        </div>
+    </div>
     <div class="sticky-bottom">
         <nav class="navbar navbar-light bg-light">
             <a class="nav-item" href="mailto:worry1004@yonsei.ac.kr">Copyright 2020. Park Sungju. All right

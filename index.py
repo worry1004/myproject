@@ -5,6 +5,7 @@ from datetime import date
 import requests
 from urllib.parse import urlparse
 from flask import Flask, render_template, jsonify, request
+import random
 
 app = Flask(__name__)
 
@@ -258,17 +259,32 @@ def corp_finder_3():
 @app.route('/reader_1', methods=['GET'])
 def corp_reader_1():
     corporates = list(db.corporates.find({},{'_id':0}))
-    return jsonify({'result': 'success', 'corporates': corporates})
+    resultlist = []
+    for c in corporates:
+        if c['code_num'] == '730000':
+            resultlist.append(c)
+    finallist = random.sample(resultlist, 12)
+    return jsonify({'result': 'success', 'finallist': finallist})
 
 @app.route('/reader_2', methods=['GET'])
 def corp_reader_2():
     corporates = list(db.corporates.find({},{'_id':0}))
-    return jsonify({'result': 'success', 'corporates': corporates})
+    resultlist = []
+    for c in corporates:
+        if c['code_num'] == '730000':
+            resultlist.append(c)
+    finallist = random.sample(resultlist, 12)
+    return jsonify({'result': 'success', 'finallist': finallist})
 
 @app.route('/reader_3', methods=['GET'])
 def corp_reader_3():
     corporates = list(db.corporates.find({},{'_id':0}))
-    return jsonify({'result': 'success', 'corporates': corporates})
+    resultlist = []
+    for c in corporates:
+        if c['code_num'] == '730000':
+            resultlist.append(c)
+    finallist = random.sample(resultlist, 12)
+    return jsonify({'result': 'success', 'finallist': finallist})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
