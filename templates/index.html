@@ -27,6 +27,10 @@
     </style>
 
     <script type="text/javascript">
+        $(document).ready(function () {
+            $('#cards_box').html('');
+        });
+
         function corp_reader_1() {
             $(".image-box").hide();
             $.ajax({
@@ -88,9 +92,9 @@
                     </div>\
                     <p class="mb-1">' + address + '</p>\
                     <small>' + code_name + '</small><br>\
-                    <small>' + Registration_date + ' / ' + employee_number + '</small>\
+                    <small>' + registration_date + ' / ' + employee_num + '</small>\
                 </a>';
-            $('#cards_box').append(temp_html);    
+            $('#cards_box').append(temp_html);
         }
     </script>
 
@@ -144,7 +148,7 @@
     </div>
     <div class="container-fluid">
         <div class="row row-cols-1 row-cols-md-3">
-            <div id="cards_box" class="list-group col-md-4">
+            <div class="list-group col-md-6" id="cards_box">
                 <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-2">Corporate Name</h5>
@@ -153,7 +157,7 @@
                     <small>Code Name</small><br>
                     <small>Registration Date / Employee Number</small>
                 </a>
-            </div>
+            </div>         
         </div>
     </div>
     <div class="sticky-bottom">
