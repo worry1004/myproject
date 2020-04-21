@@ -85,8 +85,26 @@
                 }
             });
         }
+        function corp_reader_4() {
+            $(".image-box").hide();
+            $.ajax({
+                type: "GET",
+                url: "/reader_4",
+                data: {},
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        let finallist = response['finallist'];
+                        for (let i = 0; i < finallist.length; i++) {
+                            make_card(finallist[i]['corporate_name'], finallist[i]['article_link'], finallist[i]['address'], finallist[i]['code_name'], finallist[i]['registration_date'], finallist[i]['employee_num']);
+                        }
+                    } else {
+                        alert("자료를 받아오지 못했습니다.");
+                    }
+                }
+            });
+        }
         function make_card(corporate_name, article_link, address, code_name, registration_date, employee_num) {
-            let temp_html = '<a href="' + article_link + '" class="list-group-item list-group-item-action flex-column align-items-start">\
+            let temp_html = '<a href="' + article_link + '" target="_blank" class="list-group-item list-group-item-action flex-column align-items-start">\
                     <div class="d-flex w-100 justify-content-between">\
                         <h5 class="mb-2">' + corporate_name + '</h5>\
                     </div>\
@@ -117,9 +135,10 @@
                                 Find Startup!
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" onclick="corp_reader_1()">1년차 이슈 스타트업 가져오기</a>
-                                <a class="dropdown-item" onclick="corp_reader_2()">2년차 이슈 스타트업 가져오기</a>
-                                <a class="dropdown-item" onclick="corp_reader_3()">3년차 이슈 스타트업 가져오기</a>
+                                <a class="dropdown-item" onclick="corp_reader_1()">컴퓨터 시스템 관련업</a>
+                                <a class="dropdown-item" onclick="corp_reader_2()">응용 소프트웨어 개발 및 공급업</a>
+                                <a class="dropdown-item" onclick="corp_reader_3()">기타 정보통신업</a>
+                                <a class="dropdown-item" onclick="corp_reader_4()">연구개발업</a>
                             </div>
                         </div>
                     </li>
@@ -129,9 +148,9 @@
                             Storage Startups
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/corp_1/">1년차 스타트업 (연구개발업)</a>
-                            <a class="dropdown-item" href="/corp_2/">2년차 스타트업 (연구개발업)</a>
-                            <a class="dropdown-item" href="/corp_3/">3년차 스타트업 (연구개발업)</a>
+                            <a class="dropdown-item" href="/corp_1/">1년차 스타트업</a>
+                            <a class="dropdown-item" href="/corp_2/">2년차 스타트업</a>
+                            <a class="dropdown-item" href="/corp_3/">3년차 스타트업</a>
                         </div>
                     </li>
                 </ul>
@@ -149,7 +168,7 @@
     <div class="container-fluid">
         <div class="row row-cols-1 row-cols-md-3">
             <div class="list-group col-md-6" id="cards_box">
-                <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <a href="#" target="_blank" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-2">Corporate Name</h5>
                     </div>

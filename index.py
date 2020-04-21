@@ -44,8 +44,8 @@ def corp_finder_1():
 
             # 사업자등록번호로 영리법인 본점만 걸러내기
             if reg_num == '81' or reg_num == '86' or reg_num == '87' or reg_num == '88':
-                # 1년차 연구개발업
-                if join_date > one_yearday and code_num >= 730000 and code_num < 731000:
+                # 1년차 연구개발업 및 정보통신업
+                if join_date > one_yearday and code_num > 720000 and code_num < 731000:
                     company = {
                         'name': final_name,
                         'address': address,
@@ -124,8 +124,8 @@ def corp_finder_2():
 
             # 사업자등록번호로 영리법인 본점만 걸러내기
             if reg_num == '81' or reg_num == '86' or reg_num == '87' or reg_num == '88':
-                # 2년차 연구배발업
-                if join_date <= one_yearday and join_date > two_yearday and code_num >= 730000 and code_num < 731000:
+                # 2년차 연구배발업 및 정보통신업
+                if join_date <= one_yearday and join_date > two_yearday and code_num > 720000 and code_num < 731000:
                     company = {
                         'name': final_name,
                         'address': address,
@@ -204,8 +204,8 @@ def corp_finder_3():
 
             # 사업자등록번호로 영리법인 본점만 걸러내기
             if reg_num == '81' or reg_num == '86' or reg_num == '87' or reg_num == '88':
-                # 3년차 연구개발업
-                if join_date <= two_yearday and join_date > three_yearday and code_num >= 730000 and code_num < 731000:
+                # 3년차 연구개발업 및 정보통신업
+                if join_date <= two_yearday and join_date > three_yearday and code_num > 720000 and code_num < 731000:
                     company = {
                         'name': final_name,
                         'address': address,
@@ -261,9 +261,9 @@ def corp_reader_1():
     corporates = list(db.corporates.find({},{'_id':0}))
     resultlist = []
     for c in corporates:
-        if c['code_num'] == '730000':
+        if int(c['code_num']) < 722000:
             resultlist.append(c)
-    finallist = random.sample(resultlist, 12)
+    finallist = random.sample(resultlist, 10)
     return jsonify({'result': 'success', 'finallist': finallist})
 
 @app.route('/reader_2', methods=['GET'])
@@ -271,9 +271,9 @@ def corp_reader_2():
     corporates = list(db.corporates.find({},{'_id':0}))
     resultlist = []
     for c in corporates:
-        if c['code_num'] == '730000':
+        if int(c['code_num']) == 722000:
             resultlist.append(c)
-    finallist = random.sample(resultlist, 12)
+    finallist = random.sample(resultlist, 10)
     return jsonify({'result': 'success', 'finallist': finallist})
 
 @app.route('/reader_3', methods=['GET'])
@@ -281,10 +281,21 @@ def corp_reader_3():
     corporates = list(db.corporates.find({},{'_id':0}))
     resultlist = []
     for c in corporates:
-        if c['code_num'] == '730000':
+        if int(c['code_num']) > 722000 and int(c['code_num']) < 730000:
             resultlist.append(c)
-    finallist = random.sample(resultlist, 12)
+    finallist = random.sample(resultlist, 10)
     return jsonify({'result': 'success', 'finallist': finallist})
+
+@app.route('/reader_4', methods=['GET'])
+def corp_reader_4():
+    corporates = list(db.corporates.find({},{'_id':0}))
+    resultlist = []
+    for c in corporates:
+        if int(c['code_num']) >= 730000 and int(c['code_num']) < 731000:
+            resultlist.append(c)
+    finallist = random.sample(resultlist, 10)
+    return jsonify({'result': 'success', 'finallist': finallist})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
