@@ -24,6 +24,9 @@
         .image-box {
             display: block;
         }
+        .card-columns {
+            display: inline-block; 
+        }
     </style>
 
     <script type="text/javascript">
@@ -33,6 +36,7 @@
 
         function corp_reader_1() {
             $(".image-box").hide();
+            $('#cards_box').html('');
             $.ajax({
                 type: "GET",
                 url: "/reader_1",
@@ -51,6 +55,7 @@
         }
         function corp_reader_2() {
             $(".image-box").hide();
+            $('#cards_box').html('');
             $.ajax({
                 type: "GET",
                 url: "/reader_2",
@@ -69,6 +74,7 @@
         }
         function corp_reader_3() {
             $(".image-box").hide();
+            $('#cards_box').html('');
             $.ajax({
                 type: "GET",
                 url: "/reader_3",
@@ -87,6 +93,7 @@
         }
         function corp_reader_4() {
             $(".image-box").hide();
+            $('#cards_box').html('');
             $.ajax({
                 type: "GET",
                 url: "/reader_4",
@@ -104,14 +111,14 @@
             });
         }
         function make_card(corporate_name, article_link, address, code_name, registration_date, employee_num) {
-            let temp_html = '<a href="' + article_link + '" target="_blank" class="list-group-item list-group-item-action flex-column align-items-start">\
+            let temp_html = '<a href="' + article_link + '" target="_blank" class="card list-group-item list-group-item-action flex-column align-items-start">\
                     <div class="d-flex w-100 justify-content-between">\
                         <h5 class="mb-2">' + corporate_name + '</h5>\
                     </div>\
                     <p class="mb-1">' + address + '</p>\
                     <small>' + code_name + '</small><br>\
                     <small>' + registration_date + ' / ' + employee_num + '</small>\
-                </a>';
+                </a><br>';
             $('#cards_box').append(temp_html);
         }
     </script>
@@ -166,9 +173,8 @@
             class="img-fluid" alt="Responsive image" width="100%">
     </div>
     <div class="container-fluid">
-        <div class="row row-cols-1 row-cols-md-3">
-            <div class="list-group col-md-6" id="cards_box">
-                <a href="#" target="_blank" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="card-columns col-md-12" id="cards_box">
+                <a href="#" target="_blank">
                     <div class="d-flex w-100 justify-content-between">
                         <h5 class="mb-2">Corporate Name</h5>
                     </div>
@@ -177,7 +183,6 @@
                     <small>Registration Date / Employee Number</small>
                 </a>
             </div>         
-        </div>
     </div>
     <div class="sticky-bottom">
         <nav class="navbar navbar-light bg-light">

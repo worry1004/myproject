@@ -263,7 +263,7 @@ def corp_reader_1():
     for c in corporates:
         if int(c['code_num']) < 722000:
             resultlist.append(c)
-    finallist = random.sample(resultlist, 10)
+    finallist = random.sample(resultlist, 12)
     return jsonify({'result': 'success', 'finallist': finallist})
 
 @app.route('/reader_2', methods=['GET'])
@@ -273,7 +273,7 @@ def corp_reader_2():
     for c in corporates:
         if int(c['code_num']) == 722000:
             resultlist.append(c)
-    finallist = random.sample(resultlist, 10)
+    finallist = random.sample(resultlist, 12)
     return jsonify({'result': 'success', 'finallist': finallist})
 
 @app.route('/reader_3', methods=['GET'])
@@ -283,7 +283,7 @@ def corp_reader_3():
     for c in corporates:
         if int(c['code_num']) > 722000 and int(c['code_num']) < 730000:
             resultlist.append(c)
-    finallist = random.sample(resultlist, 10)
+    finallist = random.sample(resultlist, 12)
     return jsonify({'result': 'success', 'finallist': finallist})
 
 @app.route('/reader_4', methods=['GET'])
@@ -293,7 +293,7 @@ def corp_reader_4():
     for c in corporates:
         if int(c['code_num']) >= 730000 and int(c['code_num']) < 731000:
             resultlist.append(c)
-    finallist = random.sample(resultlist, 10)
+    finallist = random.sample(resultlist, 12)
     return jsonify({'result': 'success', 'finallist': finallist})
 
 
