@@ -4,13 +4,13 @@ import csv
 from datetime import date
 import requests
 from urllib.parse import urlparse
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify
 import random
 
 app = Flask(__name__)
 
 from pymongo import MongoClient
-client = MongoClient('localhost', 27017)  # mongoDB는 27017 포트로 돌아감
+client = MongoClient('localhost', 27017)
 db = client.dbsparta
 
 @app.route('/')
@@ -26,7 +26,7 @@ def corp_finder_1():
     theday = int(today.strftime("%Y%m%d"))
     one_yearday = theday - 10000
 
-    f = open('list_202003.csv', 'r')
+    f = open('list_202003.csv', 'r', encoding='CP949')
     lines = csv.reader(f)
     for line in lines:
         if line[13] != ' ':  # 업종이 공란인 부분 제외
@@ -66,7 +66,11 @@ def corp_finder_1():
         result = requests.get(urlparse(url).geturl(),
                                headers={"X-Naver-Client-Id": "nWcBRQJcPcSEX_l9fFNm",
                                        "X-Naver-Client-Secret": "fz6_4k9dYV"})
-        search_result = result.json()['items']
+        json_result = result.json()
+        if 'items' in json_result:
+            search_result = json_result['items']
+        else:
+            continue
 
         final_result = []
         for x in search_result:
@@ -106,7 +110,7 @@ def corp_finder_2():
     two_yearday = theday - 20000
     one_yearday = theday - 10000
 
-    f = open('list_202003.csv', 'r')
+    f = open('list_202003.csv', 'r', encoding='CP949')
     lines = csv.reader(f)
     for line in lines:
         if line[13] != ' ':  # 업종이 공란인 부분 제외
@@ -146,7 +150,12 @@ def corp_finder_2():
         result = requests.get(urlparse(url).geturl(),
                                headers={"X-Naver-Client-Id": "nWcBRQJcPcSEX_l9fFNm",
                                        "X-Naver-Client-Secret": "fz6_4k9dYV"})
-        search_result = result.json()['items']
+        # search_result = result.json()['items']
+        json_result = result.json()
+        if 'items' in json_result:
+            search_result = json_result['items']
+        else:
+            continue
 
         final_result = []
         for x in search_result:
@@ -186,7 +195,7 @@ def corp_finder_3():
     three_yearday = theday - 30000
     two_yearday = theday - 20000
 
-    f = open('list_202003.csv', 'r')
+    f = open('list_202003.csv', 'r', encoding='CP949')
     lines = csv.reader(f)
     for line in lines:
         if line[13] != ' ':  # 업종이 공란인 부분 제외
@@ -226,7 +235,11 @@ def corp_finder_3():
         result = requests.get(urlparse(url).geturl(),
                                headers={"X-Naver-Client-Id": "nWcBRQJcPcSEX_l9fFNm",
                                        "X-Naver-Client-Secret": "fz6_4k9dYV"})
-        search_result = result.json()['items']
+        json_result = result.json()
+        if 'items' in json_result:
+            search_result = json_result['items']
+        else:
+            continue
 
         final_result = []
         for x in search_result:
