@@ -22,6 +22,7 @@ def db_save():
                                    "X-Naver-Client-Secret": "fz6_4k9dYV"})
     json_result = result.json()
     if 'items' in json_result:
+        global search_result
         search_result = json_result['items']
 
     final_result = []
