@@ -13,6 +13,33 @@ from pymongo import MongoClient
 client = MongoClient('localhost', 27017)
 db = client.dbsparta
 
+def db_save():
+    final_result = []
+    for x in search_result:
+        final_result.append(x['title'])
+        final_result.append(x['link'])
+        final_result.append(company['address'])
+        final_result.append(company['code_num'])
+        final_result.append(company['code_name'])
+        final_result.append(company['join_date'])
+        final_result.append(company['join_cnt'])
+        for y in final_result:
+            if final_name in y:
+                final_result[0] = final_name
+            else:
+                continue
+            # 최종 결과를 딕셔너리 형태로 저장
+            corporates = {}
+            corporates['corporate_name'] = final_result[0]
+            corporates['article_link'] = final_result[1]
+            corporates['address'] = final_result[2]
+            corporates['code_num'] = final_result[3]
+            corporates['code_name'] = final_result[4]
+            corporates['registration_date'] = final_result[5]
+            corporates['employee_num'] = final_result[6]
+
+            db.corporates.insert_one(corporates)
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -40,12 +67,14 @@ def corp_finder_1():
             # 검색의 정확도를 높이기 위해 사업장 명칭 다듬기
             rename = name.replace("(주)", "")
             new_name = rename.replace("주식회사", "")
+            global final_name
             final_name = new_name.replace("주)", "").strip()
 
             # 사업자등록번호로 영리법인 본점만 걸러내기
             if reg_num == '81' or reg_num == '86' or reg_num == '87' or reg_num == '88':
                 # 1년차 연구개발업 및 정보통신업
                 if join_date > one_yearday and code_num > 720000 and code_num < 731000:
+                    global company
                     company = {
                         'name': final_name,
                         'address': address,
@@ -68,35 +97,13 @@ def corp_finder_1():
                                        "X-Naver-Client-Secret": "fz6_4k9dYV"})
         json_result = result.json()
         if 'items' in json_result:
+            global search_result
             search_result = json_result['items']
         else:
             continue
 
-        final_result = []
-        for x in search_result:
-            final_result.append(x['title'])
-            final_result.append(x['link'])
-            final_result.append(company['address'])
-            final_result.append(company['code_num'])
-            final_result.append(company['code_name'])
-            final_result.append(company['join_date'])
-            final_result.append(company['join_cnt'])
-            for y in final_result:
-                if final_name in y:
-                    final_result[0] = final_name
-                else:
-                    continue
-                # 최종 결과를 딕셔너리 형태로 저장
-                corporates = {}
-                corporates['corporate_name'] = final_result[0]
-                corporates['article_link'] = final_result[1]
-                corporates['address'] = final_result[2]
-                corporates['code_num'] = final_result[3]
-                corporates['code_name'] = final_result[4]
-                corporates['registration_date'] = final_result[5]
-                corporates['employee_num'] = final_result[6]
+        db_save()
 
-                db.corporates.insert_one(corporates)
     f.close()
     return render_template('index.html')
 
@@ -124,12 +131,14 @@ def corp_finder_2():
             # 검색의 정확도를 높이기 위해 사업장 명칭 다듬기
             rename = name.replace("(주)", "")
             new_name = rename.replace("주식회사", "")
+            global final_name
             final_name = new_name.replace("주)", "").strip()
 
             # 사업자등록번호로 영리법인 본점만 걸러내기
             if reg_num == '81' or reg_num == '86' or reg_num == '87' or reg_num == '88':
                 # 2년차 연구배발업 및 정보통신업
                 if join_date <= one_yearday and join_date > two_yearday and code_num > 720000 and code_num < 731000:
+                    global company
                     company = {
                         'name': final_name,
                         'address': address,
@@ -150,38 +159,15 @@ def corp_finder_2():
         result = requests.get(urlparse(url).geturl(),
                                headers={"X-Naver-Client-Id": "nWcBRQJcPcSEX_l9fFNm",
                                        "X-Naver-Client-Secret": "fz6_4k9dYV"})
-        # search_result = result.json()['items']
         json_result = result.json()
         if 'items' in json_result:
+            global search_result
             search_result = json_result['items']
         else:
             continue
 
-        final_result = []
-        for x in search_result:
-            final_result.append(x['title'])
-            final_result.append(x['link'])
-            final_result.append(company['address'])
-            final_result.append(company['code_num'])
-            final_result.append(company['code_name'])
-            final_result.append(company['join_date'])
-            final_result.append(company['join_cnt'])
-            for y in final_result:
-                if final_name in y:
-                    final_result[0] = final_name
-                else:
-                    continue
-                # 최종 결과를 딕셔너리 형태로 저장
-                corporates = {}
-                corporates['corporate_name'] = final_result[0]
-                corporates['article_link'] = final_result[1]
-                corporates['address'] = final_result[2]
-                corporates['code_num'] = final_result[3]
-                corporates['code_name'] = final_result[4]
-                corporates['registration_date'] = final_result[5]
-                corporates['employee_num'] = final_result[6]
+        db_save()
 
-                db.corporates.insert_one(corporates)
     f.close()
     return render_template('index.html')
 
@@ -209,12 +195,14 @@ def corp_finder_3():
             # 검색의 정확도를 높이기 위해 사업장 명칭 다듬기
             rename = name.replace("(주)", "")
             new_name = rename.replace("주식회사", "")
+            global final_name
             final_name = new_name.replace("주)", "").strip()
 
             # 사업자등록번호로 영리법인 본점만 걸러내기
             if reg_num == '81' or reg_num == '86' or reg_num == '87' or reg_num == '88':
                 # 3년차 연구개발업 및 정보통신업
                 if join_date <= two_yearday and join_date > three_yearday and code_num > 720000 and code_num < 731000:
+                    global company
                     company = {
                         'name': final_name,
                         'address': address,
@@ -237,35 +225,13 @@ def corp_finder_3():
                                        "X-Naver-Client-Secret": "fz6_4k9dYV"})
         json_result = result.json()
         if 'items' in json_result:
+            global search_result
             search_result = json_result['items']
         else:
             continue
 
-        final_result = []
-        for x in search_result:
-            final_result.append(x['title'])
-            final_result.append(x['link'])
-            final_result.append(company['address'])
-            final_result.append(company['code_num'])
-            final_result.append(company['code_name'])
-            final_result.append(company['join_date'])
-            final_result.append(company['join_cnt'])
-            for y in final_result:
-                if final_name in y:
-                    final_result[0] = final_name
-                else:
-                    continue
-                # 최종 결과를 딕셔너리 형태로 저장
-                corporates = {}
-                corporates['corporate_name'] = final_result[0]
-                corporates['article_link'] = final_result[1]
-                corporates['address'] = final_result[2]
-                corporates['code_num'] = final_result[3]
-                corporates['code_name'] = final_result[4]
-                corporates['registration_date'] = final_result[5]
-                corporates['employee_num'] = final_result[6]
+        db_save()
 
-                db.corporates.insert_one(corporates)
     f.close()
     return render_template('index.html')
 
