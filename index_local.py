@@ -14,6 +14,16 @@ client = MongoClient('localhost', 27017)
 db = client.dbsparta
 
 def db_save():
+    # 네이버 뉴스 API로 사업장명(회사명)으로 검색하여 검색되는 기업의 정보 출력하기
+    keyword = final_name
+    url = "https://openapi.naver.com/v1/search/news?query=" + keyword + "&display=1&sort=sim"
+    result = requests.get(urlparse(url).geturl(),
+                          headers={"X-Naver-Client-Id": "nWcBRQJcPcSEX_l9fFNm",
+                                   "X-Naver-Client-Secret": "fz6_4k9dYV"})
+    json_result = result.json()
+    if 'items' in json_result:
+        search_result = json_result['items']
+
     final_result = []
     for x in search_result:
         final_result.append(x['title'])
@@ -89,18 +99,6 @@ def corp_finder_1():
                  continue
         else:
             continue
-        # 네이버 뉴스 API로 사업장명(회사명)으로 검색하여 검색되는 기업의 정보 출력하기
-        keyword = final_name
-        url = "https://openapi.naver.com/v1/search/news?query=" + keyword + "&display=1&sort=sim"
-        result = requests.get(urlparse(url).geturl(),
-                               headers={"X-Naver-Client-Id": "nWcBRQJcPcSEX_l9fFNm",
-                                       "X-Naver-Client-Secret": "fz6_4k9dYV"})
-        json_result = result.json()
-        if 'items' in json_result:
-            global search_result
-            search_result = json_result['items']
-        else:
-            continue
 
         db_save()
 
@@ -153,18 +151,6 @@ def corp_finder_2():
                  continue
         else:
             continue
-        # 네이버 뉴스 API로 사업장명(회사명)으로 검색하여 검색되는 기업의 정보 출력하기
-        keyword = final_name
-        url = "https://openapi.naver.com/v1/search/news?query=" + keyword + "&display=1&sort=sim"
-        result = requests.get(urlparse(url).geturl(),
-                               headers={"X-Naver-Client-Id": "nWcBRQJcPcSEX_l9fFNm",
-                                       "X-Naver-Client-Secret": "fz6_4k9dYV"})
-        json_result = result.json()
-        if 'items' in json_result:
-            global search_result
-            search_result = json_result['items']
-        else:
-            continue
 
         db_save()
 
@@ -215,18 +201,6 @@ def corp_finder_3():
                      continue
             else:
                  continue
-        else:
-            continue
-        # 네이버 뉴스 API로 사업장명(회사명)으로 검색하여 검색되는 기업의 정보 출력하기
-        keyword = final_name
-        url = "https://openapi.naver.com/v1/search/news?query=" + keyword + "&display=1&sort=sim"
-        result = requests.get(urlparse(url).geturl(),
-                               headers={"X-Naver-Client-Id": "nWcBRQJcPcSEX_l9fFNm",
-                                       "X-Naver-Client-Secret": "fz6_4k9dYV"})
-        json_result = result.json()
-        if 'items' in json_result:
-            global search_result
-            search_result = json_result['items']
         else:
             continue
 
